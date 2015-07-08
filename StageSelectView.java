@@ -1,0 +1,3 @@
+class StageSelectView extends View {
+
+}
