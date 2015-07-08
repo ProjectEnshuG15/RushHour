@@ -1,0 +1,3 @@
+class InputNameView extends View {
+
+}

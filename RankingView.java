@@ -1,0 +1,3 @@
+class RankingView extends View {
+
+}

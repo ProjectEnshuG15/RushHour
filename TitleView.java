@@ -1,0 +1,3 @@
+class TitleView extends View {
+
+}

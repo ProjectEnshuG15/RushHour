@@ -1,0 +1,3 @@
+class ContinueView extends View {
+
+}
