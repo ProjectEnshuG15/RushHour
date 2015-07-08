@@ -7,6 +7,7 @@ class RushHourMain{
   public static void main(String[] args) {
     RushHourFrame rushframe = new RushHourFrame("RushHour",100, 100, 400, 300);
     new RushHourController(rushframe);
+    
   }
 
   static class RushHourFrame extends JFrame{
