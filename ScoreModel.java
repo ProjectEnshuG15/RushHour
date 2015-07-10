@@ -3,11 +3,11 @@ import javax.swing.ImageIcon;
 class ScoreModel{
   private ImageIcon nextButtonImage = null;
 
-  public ScoreModel{
-
+  public ScoreModel(){
+    this.nextButtonImage = new ImageIcon("./logo/nextButton.png");
   }
 
   public ImageIcon getNextButtonImage(){
-    return nextButtonImage;
+    return this.nextButtonImage;
   }
 }
