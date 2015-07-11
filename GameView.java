@@ -1,7 +1,14 @@
-import java.awt.Point;
+
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
 class GameView extends View{
+  /*  新規フィールド２つ　*/
+  private RushHourFrame rushframe = null;
+  private GameModel model = null;
+
+  /* 旧フィールド */
   private int heightMasuNum = 50;
   private int weightMasuNum = 50;
   private Point cpuPoint[] = null;
@@ -13,8 +20,14 @@ class GameView extends View{
   private Point undoPoint = null;
   private Point menuPoint = null;
 
-  public GameView(){
-
+  public GameView(RushHourFrame f,GameModel m){
+    this.rushframe = f;
+    this.model = m;
+    JPanel p = new JPanel();
+    JLabel label1 = new JLabel(this.model.getUndoButtonImage());
+    p.add(label1);
+    rushframe.getContentPane().add(p);
+    this.rushframe.setVisible(true);
   }
 
   public void soudChage(){
