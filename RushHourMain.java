@@ -5,7 +5,7 @@ import javax.swing.*;
 
 class RushHourMain{
   public static void main(String[] args) {
-    RushHourFrame rushframe = new RushHourFrame("RushHour",100, 100,700,600);
+    RushHourFrame rushframe = new RushHourFrame("RushHour",100, 100,500,700);
     new RushHourController(rushframe);
 
   }

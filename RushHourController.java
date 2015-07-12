@@ -8,7 +8,8 @@ class RushHourController{
 
     public RushHourController(RushHourFrame rushflame){
         this.run();
-        new GameView(rushflame,new GameModel());
+        new GameView(rushflame,new GameModel()).paint();
+
     }
 
     private void run(){
