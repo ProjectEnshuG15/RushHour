@@ -6,8 +6,10 @@ import javax.swing.*;
 
 class RushHourController{
 
-    public RushHourController(JFrame rushflame){
+    public RushHourController(RushHourFrame rushflame){
         this.run();
+        new GameView(rushflame,new GameModel()).paint();
+
     }
 
     private void run(){
@@ -23,7 +25,7 @@ class RushHourController{
     }
 
     public void moveStageSelect(String username) {
-        
+
     }
 
     public void changeStageInfo(int d) {

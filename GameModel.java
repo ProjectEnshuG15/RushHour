@@ -4,14 +4,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 class GameModel{
-  private ImageIcon speakerButtonImage[] = null;
+  private ImageIcon speakerButtonImage = null;
   private ImageIcon undoButtonImage = null;
   private ImageIcon menuButtonImage = null;
   private BufferedReader stageInformation = null;
 
   public GameModel(){
-    this.speakerButtonImage[0] = new ImageIcon("./logo/speaker.png");
-    this.speakerButtonImage[1] = new ImageIcon("./logo/speaker.png");
+    this.speakerButtonImage = new ImageIcon("./logo/speaker.png");
+    //this.speakerButtonImage[1] = new ImageIcon("./logo/speaker.png");
     this.undoButtonImage = new ImageIcon("./logo/UNDOButton.png");
     this.menuButtonImage = new ImageIcon("./logo/logo3.tiff");
 
@@ -24,8 +24,14 @@ class GameModel{
 
   }
 
+  /*
   public ImageIcon getSpeakerButtonImage(int index){
     return this.speakerButtonImage[index];
+  }
+  */
+
+  public ImageIcon getSpeakerButtonImage(){
+    return this.speakerButtonImage;
   }
 
   public ImageIcon getUndoButtonImage(){
