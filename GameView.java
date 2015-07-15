@@ -14,7 +14,7 @@ class GameView extends View implements ActionListener{
   /*  新規フィールド２つ　*/
   private RushHourFrame rushframe = null;
   private GameModel model = null;
-  private Draggable[] cpuLabel = null;
+  private ArrayList<Draggable> cpuLabel = new ArrayList<Draggable>();
   private Draggable playerLabel = null;
   private Point goalPoint = null;
 
@@ -36,8 +36,17 @@ class GameView extends View implements ActionListener{
     this.model = m;
     ArrayList<String[]> list = m.getStageInformation();
     this.goalPoint = new Point( Integer.parseInt(list.get(1)[0]),Integer.parseInt(list.get(1)[0]) );//ゴールの座標の設定
-    this.playerLabel = new Draggable(model.getPlayerImage(),0,3);
-    this.playerLabel.setMasuLocation(1,1);
+    //this.playerLabel = new Draggable(model.getPlayerImage(),0,3,4-1,1-1);
+
+    for(int i=3;i<list.size();i++){
+      this.cpuLabel.add(new Draggable(model.getPlayerImage(),
+                                      Integer.parseInt(list.get(i)[0]),
+                                      Integer.parseInt(list.get(i)[1]),
+                                      Integer.parseInt(list.get(i)[2])-1,
+                                      Integer.parseInt(list.get(i)[3])-1
+                                      )
+                        );
+    }
     this.name = "サンプル";
   }
 
@@ -79,10 +88,15 @@ class GameView extends View implements ActionListener{
     socore_label.setFont(new Font("Century", Font.ITALIC, 24));
     /*ステージ用のJPanelの作成*/
     JPanel stage = new GridJPanel();
+    stage.setLayout(null);
     stage.setPreferredSize(new Dimension(400,400));
     stage.setBackground(Color.WHITE);
     stage.setBounds(50,150,400,400);
-    stage.add(playerLabel);
+
+    for(Draggable d:cpuLabel){
+        stage.add(d);
+    }
+    
     /*ボタンへのイベントリスナーの追加*/
     undoButton.addActionListener(this);
 		menuButton.addActionListener(this);
