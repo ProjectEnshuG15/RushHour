@@ -21,7 +21,7 @@ class GameModel{
     this.speakerButtonImage.add(new ImageIcon("./logo/speakerOFF.png"));
     this.undoButtonImage = new ImageIcon("./logo/UNDOButton.png");
     this.menuButtonImage = new ImageIcon("./logo/menuButton.png");
-    this.playerImage = new ImageIcon("./sozai/vehicle/car_carrier.png");
+    this.playerImage = new ImageIcon("./logo/menuButton.png");
     this.cpuImage.add(new ImageIcon("./sozai/vehicle/car_pink.png"));
     this.cpuImage.add(new ImageIcon("./sozai/vehicle/car_skyblue.pngg"));
     this.cpuImage.add(new ImageIcon("./sozai/vehicle/car_yellow.png"));
