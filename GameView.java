@@ -85,7 +85,7 @@ class GameView extends View implements ActionListener{
     stage.add(playerLabel);
     /*ボタンへのイベントリスナーの追加*/
     undoButton.addActionListener(this);
-		menuButton.addActionListener(this);
+    menuButton.addActionListener(this);
 
     /*メインのパネルにコンポーネントを追加*/
     p.add(undoButton);
