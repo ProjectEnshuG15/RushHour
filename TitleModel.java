@@ -1,11 +1,11 @@
 import javax.swing.ImageIcon;
 
-class TitleModle {
+class TitleModel {
     private ImageIcon titleRogoImage   = null;
     private ImageIcon startButtonImage = null;
     private ImageIcon rankButtonImage  = null;
 
-    public TitleModle() {
+    public TitleModel() {
         this.titleRogoImage   = new ImageIcon("./logo/title.png");
         this.startButtonImage = new ImageIcon("./logo/startButton.png");
         this.rankButtonImage  = new ImageIcon("./logo/RankingButton.png");
@@ -15,7 +15,7 @@ class TitleModle {
         return this.titleRogoImage;
     }
 
-    public ImageIcon StartButtonImage() {
+    public ImageIcon getStartButtonImage() {
         return this.startButtonImage;
     }
 

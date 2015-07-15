@@ -5,10 +5,14 @@ import java.awt.event.*;
 import javax.swing.*;
 
 class RushHourController{
-
+    int debug = 0; // 0:run 1:debag
     public RushHourController(RushHourFrame rushflame){
         this.run();
-        new GameView(rushflame,new GameModel()).paint();
+        if(debug == 1) {
+            new TitleView(rushflame,new TitleModel()).paint();
+        } else {
+            new GameView(rushflame,new GameModel()).paint();
+        }
 
     }
 
