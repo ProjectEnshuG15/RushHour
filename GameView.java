@@ -10,13 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-<<<<<<< HEAD
-
-class GameView extends View{
-  /*  新規フィールド２つ　*/
-  private RushHourFrame rushframe = null;
-  private GameModel model = null;
-=======
 class GameView extends View implements ActionListener{
   /*  新規フィールド２つ　*/
   private RushHourFrame rushframe = null;
@@ -24,7 +17,7 @@ class GameView extends View implements ActionListener{
   private Draggable[] cpuLabel = null;
   private Draggable playerLabel = null;
   private Point goalPoint = null;
->>>>>>> ゲーム画面のボタンのEventListenner
+
 
   /* 旧フィールド */
   private int heightMasuNum = 50;
@@ -41,13 +34,10 @@ class GameView extends View implements ActionListener{
   public GameView(RushHourFrame f,GameModel m){
     this.rushframe = f;
     this.model = m;
-<<<<<<< HEAD
-=======
     ArrayList<String[]> list = m.getStageInformation();
     this.goalPoint = new Point( Integer.parseInt(list.get(1)[0]),Integer.parseInt(list.get(1)[0]) );//ゴールの座標の設定
     this.playerLabel = new Draggable(model.getPlayerImage(),0,3);
     this.playerLabel.setMasuLocation(1,1);
->>>>>>> ゲーム画面のボタンのEventListenner
     this.name = "サンプル";
   }
 
@@ -71,13 +61,6 @@ class GameView extends View implements ActionListener{
   public void paint(){
     JPanel p = new JPanel();
     p.setLayout(null);
-<<<<<<< HEAD
-
-    JButton undoButton = new ResizeJButton(model.getUndoButtonImage(),20,610,120,60);
-    JButton menuButton = new ResizeJButton(model.getMenuButtonImage(),370,610,120,60);
-    JButton speakerButton = new ResizeJButton(model.getSpeakerButtonImage(),10,50,60,60);
-    speakerButton.setBorderPainted(false);
-=======
     /*ボタンの設定*/
     JButton undoButton = new ResizeJButton(model.getUndoButtonImage(),20,610,120,60);
     undoButton.setActionCommand("undo");
@@ -87,7 +70,7 @@ class GameView extends View implements ActionListener{
     speakerButton.setBorderPainted(false);
     speakerButton.setActionCommand("speaker");
     /*ラベルの設定*/
->>>>>>> ゲーム画面のボタンのEventListenner
+
     JLabel name_label = new JLabel(this.name + "さん");
     name_label.setBounds(350,20,150,40);
     name_label.setFont(new Font("Century", Font.ITALIC, 20));
@@ -99,13 +82,11 @@ class GameView extends View implements ActionListener{
     stage.setPreferredSize(new Dimension(400,400));
     stage.setBackground(Color.WHITE);
     stage.setBounds(50,150,400,400);
-<<<<<<< HEAD
-=======
     stage.add(playerLabel);
     /*ボタンへのイベントリスナーの追加*/
     undoButton.addActionListener(this);
 		menuButton.addActionListener(this);
->>>>>>> ゲーム画面のボタンのEventListenner
+
     /*メインのパネルにコンポーネントを追加*/
     p.add(undoButton);
     p.add(menuButton);
@@ -117,8 +98,7 @@ class GameView extends View implements ActionListener{
     this.rushframe.setVisible(true);//描画処理
   }
 
-<<<<<<< HEAD
-=======
+
   @Override
   public void actionPerformed(ActionEvent ae) {
     String action = ae.getActionCommand();
@@ -133,7 +113,7 @@ class GameView extends View implements ActionListener{
     }
   }
 
->>>>>>> ゲーム画面のボタンのEventListenner
+
   /* グリッド線描画のための新規クラス */
   private class GridJPanel extends JPanel{
 

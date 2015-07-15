@@ -5,10 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 class GameModel{
-<<<<<<< HEAD
-  private ImageIcon speakerButtonImage = null;
-=======
->>>>>>> ゲーム画面のボタンのEventListenner
+
   private ImageIcon undoButtonImage = null;
   private ImageIcon menuButtonImage = null;
   /*フィールド内容の変更*/
@@ -19,13 +16,9 @@ class GameModel{
   private ArrayList<ImageIcon> cpuImage = new ArrayList();
 
   public GameModel(){
-<<<<<<< HEAD
-    this.speakerButtonImage = new ImageIcon("./logo/speaker.png");
-    //this.speakerButtonImage[1] = new ImageIcon("./logo/speaker.png");
-=======
+
     this.speakerButtonImage.add(new ImageIcon("./logo/speaker.png"));
     this.speakerButtonImage.add(new ImageIcon("./logo/speakerOFF.png"));
->>>>>>> ゲーム画面のボタンのEventListenner
     this.undoButtonImage = new ImageIcon("./logo/UNDOButton.png");
     this.menuButtonImage = new ImageIcon("./logo/menuButton.png");
     this.playerImage = new ImageIcon("./sozai/vehicle/car_carrier.png");
@@ -48,14 +41,9 @@ class GameModel{
         }
   }
 
-  /*
+
   public ImageIcon getSpeakerButtonImage(int index){
     return this.speakerButtonImage.get(index);
-  }
-  */
-
-  public ImageIcon getSpeakerButtonImage(){
-    return this.speakerButtonImage;
   }
 
   public ImageIcon getUndoButtonImage(){
