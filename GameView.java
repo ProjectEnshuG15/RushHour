@@ -17,6 +17,7 @@ class GameView extends View implements ActionListener{
   private ArrayList<Draggable> cpuLabel = new ArrayList<Draggable>();
   private Draggable playerLabel = null;
   private Point goalPoint = null;
+  private JugePiece jugePieceInstance = null;
 
 
   /* 旧フィールド */
@@ -35,9 +36,16 @@ class GameView extends View implements ActionListener{
     this.rushframe = f;
     this.model = m;
     ArrayList<String[]> list = m.getStageInformation();
-    this.goalPoint = new Point( Integer.parseInt(list.get(1)[0]),Integer.parseInt(list.get(1)[0]) );//ゴールの座標の設定
-    //this.playerLabel = new Draggable(model.getPlayerImage(),0,3,4-1,1-1);
-
+    this.goalPoint = new Point( Integer.parseInt(list.get(1)[0]),Integer.parseInt(list.get(1)[1]) );//ゴールの座標の設定
+    /*目的地に移動させるための駒の設定*/
+    this.playerLabel = new Draggable(model.getPlayerImage(),
+                                    Integer.parseInt(list.get(2)[0]),
+                                    Integer.parseInt(list.get(2)[1]),
+                                    Integer.parseInt(list.get(2)[2])-1,
+                                    Integer.parseInt(list.get(2)[3])-1
+    );
+    playerLabel.setGoalPoint(goalPoint);
+    /*障害物としてある駒の設定*/
     for(int i=3;i<list.size();i++){
       this.cpuLabel.add(new Draggable(model.getPlayerImage(),
                                       Integer.parseInt(list.get(i)[0]),
@@ -47,6 +55,7 @@ class GameView extends View implements ActionListener{
                                       )
                         );
     }
+    jugePieceInstance = new JugePiece(cpuLabel,playerLabel);//駒の重複監視のためのオブジェクトの作成
     this.name = "サンプル";
   }
 
@@ -79,7 +88,6 @@ class GameView extends View implements ActionListener{
     speakerButton.setBorderPainted(false);
     speakerButton.setActionCommand("speaker");
     /*ラベルの設定*/
-
     JLabel name_label = new JLabel(this.name + "さん");
     name_label.setBounds(350,20,150,40);
     name_label.setFont(new Font("Century", Font.ITALIC, 20));
@@ -92,11 +100,18 @@ class GameView extends View implements ActionListener{
     stage.setPreferredSize(new Dimension(400,400));
     stage.setBackground(Color.WHITE);
     stage.setBounds(50,150,400,400);
-
+    /*ステージ用Jpnelに表示する駒の設定*/
+    MyMouseListener listener = new MyMouseListener(playerLabel,jugePieceInstance);
+    playerLabel.addMouseListener(listener);
+    playerLabel.addMouseMotionListener(listener);
+    stage.add(playerLabel);
     for(Draggable d:cpuLabel){
-        stage.add(d);
+      listener = new MyMouseListener(d,jugePieceInstance);
+      d.addMouseListener(listener);
+      d.addMouseMotionListener(listener);
+      stage.add(d);
     }
-    
+
     /*ボタンへのイベントリスナーの追加*/
     undoButton.addActionListener(this);
     menuButton.addActionListener(this);
@@ -137,7 +152,6 @@ class GameView extends View implements ActionListener{
 
   			//	大きさ取得
   			Dimension wh = this.getSize();
-        System.out.println(wh.width + ":" + wh.height);
 
   			//グリッド線を惹く
         for(int i=1;i<6;i++){

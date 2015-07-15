@@ -7,9 +7,10 @@ class  Draggable extends JLabel {
     int w = 400;
     int h = 400;
     private int direction = -1;
+    private Point masuPoint = null;
     private Point point = null;
     private Point imageSize = null;
-    private MyMouseListener listener = null;
+    private Point goalPoint = null;
 
     Draggable(ImageIcon icon,int muki,int size,int x,int y) {
         super(icon);
@@ -17,30 +18,47 @@ class  Draggable extends JLabel {
         this.direction = muki;
 
         if(muki==0){
-          sizeX = changeMasuPoint(1);
-          sizeY = changeMasuPoint(size);
+          sizeX = 1;
+          sizeY = size;
         }else{
-          sizeY = changeMasuPoint(1);
-          sizeX = changeMasuPoint(size);
+          sizeY = 1;
+          sizeX = size;
         }
 
         imageSize = new Point(sizeX,sizeY);
-        Image new_img = icon.getImage().getScaledInstance(sizeX,sizeY,Image.SCALE_DEFAULT);
+        setMasuLocation(x,y);
+        Image new_img = icon.getImage().getScaledInstance(changeMasuPoint(imageSize.x),changeMasuPoint(imageSize.y),Image.SCALE_DEFAULT);
         super.setIcon(new ImageIcon(new_img,""));
-        super.setBounds(changeMasuPoint(x),changeMasuPoint(y),imageSize.x,imageSize.y);
+        super.setBounds(changeMasuPoint(x),changeMasuPoint(y),changeMasuPoint(imageSize.x),changeMasuPoint(imageSize.y));
         point = new Point(changeMasuPoint(x),changeMasuPoint(y));
-
-        // イベントリスナを設定
-        listener = new MyMouseListener(this);
-        addMouseListener(listener);
-        addMouseMotionListener(listener);
     }
 
-    public getMyMouseListener(){
-      return listener;
+    public void setGoalPoint(Point p){
+      this.goalPoint = p;
     }
 
+    public int getDirection(){
+      return this.direction;
+    }
 
+    public Point getImageSize(){
+      return this.imageSize;
+    }
+
+    public void setMasuLocation(int x,int y){
+      if(changeMasuPoint(x)<0 || (changeMasuPoint(x)+changeMasuPoint(imageSize.x))>400 ||
+          changeMasuPoint(y)<0 || (changeMasuPoint(y)+changeMasuPoint(imageSize.y))>400 ) return;
+      masuPoint = new Point(x,y);
+      if(goalPoint!=null){
+        System.out.println(";;;;;" + goalPoint.x + "," + goalPoint.y );
+        if( (masuPoint.x+this.getImageSize().x)==goalPoint.x && (masuPoint.y+this.getImageSize().y)==goalPoint.y) System.out.println("ゴールしました");
+      }
+      this.setLocation(new Point(changeMasuPoint(x),changeMasuPoint(y)));
+    }
+
+    public Point getMasuLocation(){
+      return this.masuPoint;
+    }
 
     /*マス用のパラメータをJPanel用の座標パラメータに変換する*/
     public int changeMasuPoint(int v){
@@ -48,70 +66,105 @@ class  Draggable extends JLabel {
       return 400/6 * v;
     }
 
-    private class MyMouseListener extends MouseAdapter {
-        private int dx, dy;
-        Draggable label;
-        Point p = null;
+}
 
-        MyMouseListener(Draggable lab) {
-            super();
-            label = lab;
-            this.p = label.point;
-        }
+class MyMouseListener extends MouseAdapter {
+    private int dx, dy;
+    private JugePiece jugePieceInstance = null;
+    Draggable label;
+    boolean moveFlag = true;
 
-        public void mouseDragged(MouseEvent e) {
-            // マウスの座標からラベルの左上の座標を取得する
-
-            int x = e.getXOnScreen() - dx;
-            int y = e.getYOnScreen() - dy;
-
-            if(x>400-label.imageSize.x || y>400-label.imageSize.y || x<0 || y<0) return;
-
-            if(label.direction==0){
-              System.out.println(x +":"+ y);
-              p = new Point(p.x,y);
-              label.setLocation(p);
-            }else{
-              System.out.println(x +":"+ y);
-              p = new Point(x,p.y);
-              label.setLocation(p);
-            }
-        }
-
-        public void mousePressed(MouseEvent e) {
-            // 押さえたところからラベルの左上の差を取っておく
-            dx = e.getXOnScreen() - label.getX();
-            dy = e.getYOnScreen() - label.getY();
-        }
+    MyMouseListener(Draggable lab,JugePiece j) {
+        super();
+        label = lab;
+        this.jugePieceInstance = j;
     }
+
+    public void mouseDragged(MouseEvent e) {
+        if(!moveFlag) return;
+        moveFlag = false;
+
+        // マウスの座標からラベルの左上の座標を取得する
+        int x = e.getXOnScreen() - dx;
+        int y = e.getYOnScreen() - dy;
+        Point p = label.getMasuLocation();
+
+        if(label.getDirection() == 1){
+          if(x-label.getX()>0){
+            p = new Point(p.x+1,p.y);
+          }else{
+            p = new Point(p.x-1,p.y);
+          }
+        }else{
+          if(y-label.getY()>0){
+            p = new Point(p.x,p.y+1);
+          }else{
+            p = new Point(p.x,p.y-1);
+          }
+        }
+
+
+        p = this.jugePieceInstance.pillUpPiece(label,p.x,p.y);
+        if (p==null) return;
+        label.setMasuLocation(p.x,p.y);
+
+        /*
+
+        if(label.getDirection() == 1) newP = new Point(x,label.getY());
+        else newP = new Point(label.getX(),y);
+
+
+        newP = this.jugePieceInstance.pillUpPiece(label,newP.x,newP.y);
+        if (newP==null) return;
+        label.setLocation(newP);
+        */
+    }
+
+    public void mousePressed(MouseEvent e) {
+        // 押さえたところからラベルの左上の差を取っておく
+        dx = e.getXOnScreen() - label.getX();
+        dy = e.getYOnScreen() - label.getY();
+    }
+
+    public void mouseReleased(MouseEvent e){
+      moveFlag = true;
+    }
+
 }
 
 class JugePiece{
 
-  ArrayList<Draggable> allPiece = new ArrayList<Draggable>();
+  private ArrayList<Draggable> allPiece = new ArrayList<Draggable>();
 
-  public boolean pillUpPiece(Draggable my){
+  public JugePiece(ArrayList<Draggable> cpuPiece,Draggable playerPiece){
+    allPiece.add(playerPiece);
+    for(Draggable d:cpuPiece){
+      allPiece.add(d);
+    }
+  }
+
+
+  public Point pillUpPiece(Draggable my,int x,int y){
+    int i=0;
     for(Draggable d:allPiece){
+      //System.out.println(d.getX() + "," + d.getY());
+      Point p = d.getMasuLocation();
       if(my!=d){
-        //座標の取得
-        Point otherPoint = d.getMyMouseListener().p;
-        Point myPoint = my.getMyMouseListener().p;
-
-        /*重なり判定乃処理*/
-        if(my.direction == 0){
-          //X方向の重なりの確認
-          if( (myPoint.x+my.imageSize.x)>otherPoint.x || (otherPoint+d.imageSize.x)<myPoint.x ){
-            return false;
-          }
-        }else{
-          if( (myPoint.y+my.imageSize.x)>otherPoint.x || (otherPoint+d.imageSize.x)<myPoint.x ){
-            return false;
-          }
+        if(y>=p.y && (p.y+d.getImageSize().y)>y){
+          System.out.println("fjsldakfj");
+          System.out.println(p.x + "," + p.y);
+          if( (x+my.getImageSize().x)>p.x && (x+my.getImageSize().x)<=(p.x+d.getImageSize().x) ) return null;
+          else if(x>=p.x && x<(p.x+d.getImageSize().x) ) return null;
+        }else if(x>=p.x && (p.x+d.getImageSize().x)>x){
+          System.out.println("fjsldakfsadfafj");
+          System.out.println(p.x + "," + p.y);
+          if( (y+my.getImageSize().y)>p.y && (y+my.getImageSize().y)<=(p.y+d.getImageSize().y) ) return null;
+          else if(y>=p.y && y<(p.y+d.getImageSize().y) ) return null;
         }
-
-
-
       }
     }
+    //System.out.println(i);
+
+    return new Point(x,y);
   }
 }
