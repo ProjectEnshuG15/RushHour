@@ -76,3 +76,16 @@ class ResizeJLabel extends JLabel{
         setBounds(x,y,w,h);
     }
 }
+
+/**
+  新たに作成したクラス
+  作業中GameViewクラスがエラーを出していたためこちらにも作成した
+*/
+class ResizeJButton extends JButton{
+
+  public ResizeJButton(ImageIcon icon,int x,int y,int w,int h){
+    Image new_img = icon.getImage().getScaledInstance(w,h,Image.SCALE_DEFAULT);
+    super.setIcon(new ImageIcon(new_img,""));
+    setBounds(x,y,w,h);
+  }
+}
