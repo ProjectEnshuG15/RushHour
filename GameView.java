@@ -47,7 +47,7 @@ class GameView extends View implements ActionListener{
                         );
     }
     
-    this.labelPiece.get(0).set
+    //this.labelPiece.get(0).set
     this.name = "サンプル";
   }
 
@@ -94,9 +94,9 @@ class GameView extends View implements ActionListener{
     stage.setBackground(Color.WHITE);
     stage.setBounds(50,150,400,400);
 
-    for(Draggable d:cpuLabel){
-        stage.add(d);
-    }
+    // for(Draggable d:cpuLabel){
+    //     stage.add(d);
+    // }
 
     /*ボタンへのイベントリスナーの追加*/
     undoButton.addActionListener(this);

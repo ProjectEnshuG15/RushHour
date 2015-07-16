@@ -12,18 +12,21 @@ class TitleView extends View implements ActionListener{
     /* 新規フィールド*/
     private RushHourFrame rushframe = null;
     private TitleModel model = null;
+    private RushHourController controller = null;
 
+    /*旧フィールド*/
     private Point startButtonPoint = null;
     private Point rankButtonPoint = null;
     private int titleRogoPoint = 0;
 
-    public TitleView(RushHourFrame f,TitleModel m) {
+    public TitleView(RushHourFrame f,TitleModel m, RushHourController c) {
         this.rushframe = f;
         this.model = m;
+        this.controller = c;
     }
 
     public void start() {
-
+        controller.moveInputNameView();
     }
 
     public void ranking() {
