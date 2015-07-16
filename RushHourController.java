@@ -15,11 +15,11 @@ class RushHourController{
     private GameModel gameModel = null;
     
     public RushHourController(RushHourFrame rushflame){
-        titleModel = new TitleModel();
-        titleView = new TitleView(rushflame, titleModel, this);
-        inputNameView = new InputNameView();
-        gameModel = new GameModel();
-        gameView = new GameView(rushflame, gameModel, this);
+        this.titleModel = new TitleModel();
+        this.titleView = new TitleView(rushflame, titleModel, this);
+        this.inputNameView = new InputNameView();
+        this.gameModel = new GameModel();
+        this.gameView = new GameView(rushflame, gameModel, this);
 
         this.run();
         if(debug == 0) {
@@ -41,7 +41,7 @@ class RushHourController{
     }
 
     public void moveRankingView() {
-
+        
     }
 
     public void moveStageSelect(String username) {

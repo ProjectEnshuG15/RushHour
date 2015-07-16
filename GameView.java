@@ -70,6 +70,7 @@ class GameView extends View implements ActionListener{
 
   @Override
   public void paint(){
+      System.out.println("DEBUG:gameView paint");      
     JPanel p = new JPanel();
     p.setLayout(null);
     /*ボタンの設定*/
