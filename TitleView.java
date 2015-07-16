@@ -12,18 +12,21 @@ class TitleView extends View implements ActionListener{
     /* 新規フィールド*/
     private RushHourFrame rushframe = null;
     private TitleModel model = null;
+    private RushHourController controller = null;
 
+    /*旧フィールド*/
     private Point startButtonPoint = null;
     private Point rankButtonPoint = null;
     private int titleRogoPoint = 0;
 
-    public TitleView(RushHourFrame f,TitleModel m) {
+    public TitleView(RushHourFrame f,TitleModel m, RushHourController c) {
         this.rushframe = f;
         this.model = m;
+        this.controller = c;
     }
 
     public void start() {
-
+        controller.moveInputNameView();
     }
 
     public void ranking() {
@@ -75,4 +78,17 @@ class ResizeJLabel extends JLabel{
         super.setIcon(new ImageIcon(new_img,""));
         setBounds(x,y,w,h);
     }
+}
+
+/**
+  新たに作成したクラス
+  作業中GameViewクラスがエラーを出していたためこちらにも作成した
+*/
+class ResizeJButton extends JButton{
+
+  public ResizeJButton(ImageIcon icon,int x,int y,int w,int h){
+    Image new_img = icon.getImage().getScaledInstance(w,h,Image.SCALE_DEFAULT);
+    super.setIcon(new ImageIcon(new_img,""));
+    setBounds(x,y,w,h);
+  }
 }
