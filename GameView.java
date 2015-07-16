@@ -16,7 +16,7 @@ class GameView extends View implements ActionListener{
   private GameModel model = null;
   private ArrayList<Draggable> labelPiece = new ArrayList<Draggable>();
   private Point goalPoint = null;
-
+    private RushHourController controller = null;
 
   /* 旧フィールド */
   private int heightMasuNum = 50;
@@ -30,9 +30,10 @@ class GameView extends View implements ActionListener{
   private Point undoPoint = null;
   private Point menuPoint = null;
 
-  public GameView(RushHourFrame f,GameModel m){
+    public GameView(RushHourFrame f,GameModel m, RushHourController c){
     this.rushframe = f;
     this.model = m;
+    this.controller = c;
     ArrayList<String[]> list = m.getStageInformation();
     this.goalPoint = new Point( Integer.parseInt(list.get(1)[0]),Integer.parseInt(list.get(1)[0]) );//ゴールの座標の設定
     //this.playerLabel = new Draggable(model.getPlayerImage(),0,3,4-1,1-1);

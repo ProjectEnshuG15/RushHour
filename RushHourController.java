@@ -19,7 +19,7 @@ class RushHourController{
         titleView = new TitleView(rushflame, titleModel, this);
         inputNameView = new InputNameView();
         gameModel = new GameModel();
-        gameView = new GameView(rushflame, gameModel);
+        gameView = new GameView(rushflame, gameModel, this);
 
         this.run();
         if(debug == 0) {
