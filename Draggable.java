@@ -50,12 +50,12 @@ class  Draggable extends JLabel {
           changeMasuPoint(y)<0 || (changeMasuPoint(y)+changeMasuPoint(imageSize.y))>400 ) return;
       masuPoint = new Point(x,y);
       if(goalPoint!=null){
-        System.out.println(";;;;;" + goalPoint.x + "," + goalPoint.y );
         if( (masuPoint.x+this.getImageSize().x)==goalPoint.x && (masuPoint.y+this.getImageSize().y)==goalPoint.y) System.out.println("ゴールしました");
       }
       this.setLocation(new Point(changeMasuPoint(x),changeMasuPoint(y)));
     }
 
+    /*このラベルの6*6におけるマスの現在の座標を返す*/
     public Point getMasuLocation(){
       return this.masuPoint;
     }
@@ -70,14 +70,14 @@ class  Draggable extends JLabel {
 
 class MyMouseListener extends MouseAdapter {
     private int dx, dy;
-    private JugePiece jugePieceInstance = null;
+    private ArrayList<Draggable> allPiece = null;
     Draggable label;
     boolean moveFlag = true;
 
-    MyMouseListener(Draggable lab,JugePiece j) {
+    MyMouseListener(Draggable lab,ArrayList<Draggable> a) {
         super();
         label = lab;
-        this.jugePieceInstance = j;
+        this.allPiece = a;
     }
 
     public void mouseDragged(MouseEvent e) {
@@ -89,6 +89,7 @@ class MyMouseListener extends MouseAdapter {
         int y = e.getYOnScreen() - dy;
         Point p = label.getMasuLocation();
 
+        /*ラベルの向きを元に移動座標の変換を行う*/
         if(label.getDirection() == 1){
           if(x-label.getX()>0){
             p = new Point(p.x+1,p.y);
@@ -102,22 +103,10 @@ class MyMouseListener extends MouseAdapter {
             p = new Point(p.x,p.y-1);
           }
         }
-
-
-        p = this.jugePieceInstance.pillUpPiece(label,p.x,p.y);
+        p = this.pillUpPiece(label,p.x,p.y);
         if (p==null) return;
         label.setMasuLocation(p.x,p.y);
 
-        /*
-
-        if(label.getDirection() == 1) newP = new Point(x,label.getY());
-        else newP = new Point(label.getX(),y);
-
-
-        newP = this.jugePieceInstance.pillUpPiece(label,newP.x,newP.y);
-        if (newP==null) return;
-        label.setLocation(newP);
-        */
     }
 
     public void mousePressed(MouseEvent e) {
@@ -126,45 +115,27 @@ class MyMouseListener extends MouseAdapter {
         dy = e.getYOnScreen() - label.getY();
     }
 
+
+    /* 重複判定のためのメソッド */
+    public Point pillUpPiece(Draggable my,int x,int y){
+      for(Draggable d:allPiece){
+        Point p = d.getMasuLocation();
+        if(my!=d){
+          if(y>=p.y && (p.y+d.getImageSize().y)>y){
+            if( (x+my.getImageSize().x)>p.x && (x+my.getImageSize().x)<=(p.x+d.getImageSize().x) ) return null;
+            else if(x>=p.x && x<(p.x+d.getImageSize().x) ) return null;
+          }else if(x>=p.x && (p.x+d.getImageSize().x)>x){
+            if( (y+my.getImageSize().y)>p.y && (y+my.getImageSize().y)<=(p.y+d.getImageSize().y) ) return null;
+            else if(y>=p.y && y<(p.y+d.getImageSize().y) ) return null;
+          }
+        }
+      }
+      return new Point(x,y);
+    }
+
+
     public void mouseReleased(MouseEvent e){
       moveFlag = true;
     }
 
-}
-
-class JugePiece{
-
-  private ArrayList<Draggable> allPiece = new ArrayList<Draggable>();
-
-  public JugePiece(ArrayList<Draggable> cpuPiece,Draggable playerPiece){
-    allPiece.add(playerPiece);
-    for(Draggable d:cpuPiece){
-      allPiece.add(d);
-    }
-  }
-
-
-  public Point pillUpPiece(Draggable my,int x,int y){
-    int i=0;
-    for(Draggable d:allPiece){
-      //System.out.println(d.getX() + "," + d.getY());
-      Point p = d.getMasuLocation();
-      if(my!=d){
-        if(y>=p.y && (p.y+d.getImageSize().y)>y){
-          System.out.println("fjsldakfj");
-          System.out.println(p.x + "," + p.y);
-          if( (x+my.getImageSize().x)>p.x && (x+my.getImageSize().x)<=(p.x+d.getImageSize().x) ) return null;
-          else if(x>=p.x && x<(p.x+d.getImageSize().x) ) return null;
-        }else if(x>=p.x && (p.x+d.getImageSize().x)>x){
-          System.out.println("fjsldakfsadfafj");
-          System.out.println(p.x + "," + p.y);
-          if( (y+my.getImageSize().y)>p.y && (y+my.getImageSize().y)<=(p.y+d.getImageSize().y) ) return null;
-          else if(y>=p.y && y<(p.y+d.getImageSize().y) ) return null;
-        }
-      }
-    }
-    //System.out.println(i);
-
-    return new Point(x,y);
-  }
 }

@@ -34,7 +34,7 @@ class GameView extends View implements ActionListener{
     this.rushframe = f;
     this.model = m;
     ArrayList<String[]> list = m.getStageInformation();
-    this.goalPoint = new Point( Integer.parseInt(list.get(1)[0]),Integer.parseInt(list.get(1)[0]) );//ゴールの座標の設定
+    this.goalPoint = new Point( Integer.parseInt(list.get(1)[0]),Integer.parseInt(list.get(1)[1]) );//ゴールの座標の設定
     //this.playerLabel = new Draggable(model.getPlayerImage(),0,3,4-1,1-1);
     /*駒のラベル用インスタンスを生成しArrayListに格納する*/
     for(int i=2;i<list.size();i++){
@@ -46,8 +46,7 @@ class GameView extends View implements ActionListener{
                                       )
                         );
     }
-    
-    this.labelPiece.get(0).set
+    this.labelPiece.get(0).setGoalPoint(goalPoint);//対象の駒のみゴールの座標を設定する
     this.name = "サンプル";
   }
 
@@ -93,8 +92,11 @@ class GameView extends View implements ActionListener{
     stage.setPreferredSize(new Dimension(400,400));
     stage.setBackground(Color.WHITE);
     stage.setBounds(50,150,400,400);
-
-    for(Draggable d:cpuLabel){
+    JugePiece jugePieceInstance = new JugePiece(labelPiece);
+    for(Draggable d:labelPiece){
+        MyMouseListener listener = new MyMouseListener(d,labelPiece);
+        d.addMouseListener(listener);
+        d.addMouseMotionListener(listener);
         stage.add(d);
     }
 
