@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 
 
 class GameView extends View implements ActionListener{
-  /*  新規フィールド２つ　*/
+  /*  新規フィールド*/
   private RushHourFrame rushframe = null;
   private GameModel model = null;
   private ArrayList<Draggable> labelPiece = new ArrayList<Draggable>();
@@ -92,7 +92,7 @@ class GameView extends View implements ActionListener{
     stage.setPreferredSize(new Dimension(400,400));
     stage.setBackground(Color.WHITE);
     stage.setBounds(50,150,400,400);
-    JugePiece jugePieceInstance = new JugePiece(labelPiece);
+    //JugePiece jugePieceInstance = new JugePiece(labelPiece);
     for(Draggable d:labelPiece){
         MyMouseListener listener = new MyMouseListener(d,labelPiece);
         d.addMouseListener(listener);
