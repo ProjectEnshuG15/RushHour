@@ -17,6 +17,6 @@ class InputNameView extends View {
 
     @Override
     public void paint() {
-        
+        System.out.println("Debug:InputNameViewのpaintに入りました。");
     }
 }
