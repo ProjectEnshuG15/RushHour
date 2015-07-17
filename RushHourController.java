@@ -5,7 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 class RushHourController{
-    private int debug = 1; // 0:run 1:debag
+    private int debug = 0; // 0:run 1:debag
 
     /*新フィールド*/
     private TitleView titleView = null;
@@ -22,7 +22,7 @@ class RushHourController{
         this.gameView = new GameView(rushflame, gameModel, this);
 
         this.run();
-        if(debug == 0) {
+        if(debug == 1) {
             titleView.paint();
         } else {
             gameView.paint();
