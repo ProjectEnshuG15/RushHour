@@ -11,12 +11,12 @@ import java.awt.event.ActionListener;
 
 
 class GameView extends View implements ActionListener{
-  /*  新規フィールド*/
+  /*  新規フィールド２つ　*/
   private RushHourFrame rushframe = null;
   private GameModel model = null;
   private ArrayList<Draggable> labelPiece = new ArrayList<Draggable>();
   private Point goalPoint = null;
-    private RushHourController controller = null;
+
 
   /* 旧フィールド */
   private int heightMasuNum = 50;
@@ -30,12 +30,11 @@ class GameView extends View implements ActionListener{
   private Point undoPoint = null;
   private Point menuPoint = null;
 
-    public GameView(RushHourFrame f,GameModel m, RushHourController c){
+  public GameView(RushHourFrame f,GameModel m){
     this.rushframe = f;
     this.model = m;
-    this.controller = c;
     ArrayList<String[]> list = m.getStageInformation();
-    this.goalPoint = new Point( Integer.parseInt(list.get(1)[0]),Integer.parseInt(list.get(1)[1]) );//ゴールの座標の設定
+    this.goalPoint = new Point( Integer.parseInt(list.get(1)[0]),Integer.parseInt(list.get(1)[0]) );//ゴールの座標の設定
     //this.playerLabel = new Draggable(model.getPlayerImage(),0,3,4-1,1-1);
     /*駒のラベル用インスタンスを生成しArrayListに格納する*/
     for(int i=2;i<list.size();i++){
@@ -47,7 +46,8 @@ class GameView extends View implements ActionListener{
                                       )
                         );
     }
-    this.labelPiece.get(0).setGoalPoint(goalPoint);//対象の駒のみゴールの座標を設定する
+    
+    this.labelPiece.get(0).set
     this.name = "サンプル";
   }
 
@@ -69,7 +69,6 @@ class GameView extends View implements ActionListener{
 
   @Override
   public void paint(){
-      System.out.println("DEBUG:gameView paint");      
     JPanel p = new JPanel();
     p.setLayout(null);
     /*ボタンの設定*/
@@ -94,9 +93,10 @@ class GameView extends View implements ActionListener{
     stage.setPreferredSize(new Dimension(400,400));
     stage.setBackground(Color.WHITE);
     stage.setBounds(50,150,400,400);
-    // for(Draggable d:cpuLabel){
-    //     stage.add(d);
-    // }
+
+    for(Draggable d:cpuLabel){
+        stage.add(d);
+    }
 
     /*ボタンへのイベントリスナーの追加*/
     undoButton.addActionListener(this);

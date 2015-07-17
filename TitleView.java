@@ -12,30 +12,22 @@ class TitleView extends View implements ActionListener{
     /* 新規フィールド*/
     private RushHourFrame rushframe = null;
     private TitleModel model = null;
-    private RushHourController controller = null;
-    JButton rankingButton = null;
-    JButton startButton = null;
-    JLabel logoLabel =  null;
 
-    /*旧フィールド*/
     private Point startButtonPoint = null;
     private Point rankButtonPoint = null;
     private int titleRogoPoint = 0;
 
-    public TitleView(RushHourFrame f,TitleModel m, RushHourController c) {
+    public TitleView(RushHourFrame f,TitleModel m) {
         this.rushframe = f;
         this.model = m;
-        this.controller = c;
     }
 
     public void start() {
-        rushframe.getContentPane().removeAll();
-        controller.moveInputNameView();
+
     }
 
     public void ranking() {
-        rushframe.getContentPane().removeAll();
-        controller.moveRankingView();
+
     }
 
     @Override
@@ -43,17 +35,17 @@ class TitleView extends View implements ActionListener{
         JPanel p = new JPanel();
         p.setLayout(null);
         /*ボタンの設定*/
-        startButton = new ResizeJButton(model.getStartButtonImage(),180,370,120,60);
+        JButton startButton = new ResizeJButton(model.getStartButtonImage(),180,370,120,60);
         startButton.setActionCommand("start");
-        rankingButton = new ResizeJButton(model.getRankButtonImage(),180,500,120,60);
+        JButton rankingButton = new ResizeJButton(model.getRankButtonImage(),180,500,120,60);
         rankingButton.setActionCommand("rank");
-        logoLabel =  new ResizeJLabel(model.getTitleRogoImage(),120,100,240,200);
+
         /*ボタンへのイベントリスナーの追加*/
         startButton.addActionListener(this);
         rankingButton.addActionListener(this);
 
         /*ロゴの設定*/
-
+        JLabel logoLabel =  new ResizeJLabel(model.getTitleRogoImage(),120,100,240,200);
         
         /*メインのパネルにコンポーネントを追加*/
         p.add(startButton);
@@ -61,7 +53,6 @@ class TitleView extends View implements ActionListener{
         p.add(logoLabel);
         rushframe.getContentPane().add(p);//FrameにPanelを追加
         this.rushframe.setVisible(true);//描画処理
-
     }
 
     @Override
@@ -74,8 +65,6 @@ class TitleView extends View implements ActionListener{
         }else
             System.out.println("out");
     }
-
-
 }
 /**
    新たに作成したクラス
@@ -87,16 +76,3 @@ class ResizeJLabel extends JLabel{
         setBounds(x,y,w,h);
     }
 }
-
-// /**
-//   新たに作成したクラス
-//   作業中GameViewクラスがエラーを出していたためこちらにも作成した
-// */
-// class ResizeJButton extends JButton{
-
-//   public ResizeJButton(ImageIcon icon,int x,int y,int w,int h){
-//     Image new_img = icon.getImage().getScaledInstance(w,h,Image.SCALE_DEFAULT);
-//     super.setIcon(new ImageIcon(new_img,""));
-//     setBounds(x,y,w,h);
-//   }
-//}

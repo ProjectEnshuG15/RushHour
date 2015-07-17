@@ -5,27 +5,13 @@ import java.awt.event.*;
 import javax.swing.*;
 
 class RushHourController{
-    private int debug = 0; // 0:run 1:debag
-
-    /*新フィールド*/
-    private TitleView titleView = null;
-    private TitleModel titleModel = null;
-    private InputNameView inputNameView = null;
-    private GameView gameView = null; 
-    private GameModel gameModel = null;
-    
+    int debug = 0; // 0:run 1:debag
     public RushHourController(RushHourFrame rushflame){
-        this.titleModel = new TitleModel();
-        this.titleView = new TitleView(rushflame, titleModel, this);
-        this.inputNameView = new InputNameView();
-        this.gameModel = new GameModel();
-        this.gameView = new GameView(rushflame, gameModel, this);
-
         this.run();
         if(debug == 1) {
-            titleView.paint();
+            new TitleView(rushflame,new TitleModel()).paint();
         } else {
-            gameView.paint();
+            new GameView(rushflame,new GameModel()).paint();
         }
 
     }
@@ -35,12 +21,11 @@ class RushHourController{
     }
 
     public void moveInputNameView() {
-        // viewを更新する
-        gameView.paint();
+
     }
 
     public void moveRankingView() {
-        
+
     }
 
     public void moveStageSelect(String username) {
