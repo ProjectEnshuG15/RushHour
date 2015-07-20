@@ -3,6 +3,7 @@ import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.awt.Point;
 
 class GameModel{
 
@@ -72,6 +73,65 @@ class GameModel{
   }
   public ImageIcon getCpuImage(int index){
     return this.cpuImage.get(index);
+  }
+
+
+  public boolean checkGoalZone(Draggable label){
+    Point masuPoint = label.getMasuLocation();
+    Point imageSize = label.getImageSize();
+    Point goalPoint = label.getGoalPoint();
+    if(goalPoint!=null){
+      if( (masuPoint.x + imageSize.x)==goalPoint.x && (masuPoint.y+imageSize.y)==goalPoint.y) return true;
+    }
+    return false;
+  }
+
+  /**
+    マウスの移動方向と対象のラベル情報を引数として移動先の情報の座標返す
+    移動方向をが重複、壁となっている場合はnullを返す
+  */
+  public Point movePiece(int x,int y,Draggable label,ArrayList<Draggable> allPiece){
+    Point p = label.getMasuLocation();
+    /*ラベルの向きを元に移動座標の変換を行う*/
+    if(label.getDirection() == 1){
+      if(x-label.getX()>0){
+        p = new Point(p.x+1,p.y);
+      }else{
+        p = new Point(p.x-1,p.y);
+      }
+    }else{
+      if(y-label.getY()>0){
+        p = new Point(p.x,p.y+1);
+      }else{
+        p = new Point(p.x,p.y-1);
+      }
+    }
+
+    p = pillUpPiece(label,p.x,p.y,allPiece);//ここで重複判定を行う
+    return p;
+  }
+
+  /* 重複判定のためのメソッド */
+  private Point pillUpPiece(Draggable my,int x,int y,ArrayList<Draggable> allPiece){
+    for(Draggable d:allPiece){
+      Point p = d.getMasuLocation();
+      if(my!=d){
+        if(y>=p.y && (p.y+d.getImageSize().y)>y){
+          if( (x+my.getImageSize().x)>p.x && (x+my.getImageSize().x)<=(p.x+d.getImageSize().x) ) return null;
+          else if(x>=p.x && x<(p.x+d.getImageSize().x) ) return null;
+        }else if(x>=p.x && (p.x+d.getImageSize().x)>x){
+          if( (y+my.getImageSize().y)>p.y && (y+my.getImageSize().y)<=(p.y+d.getImageSize().y) ) return null;
+          else if(y>=p.y && y<(p.y+d.getImageSize().y) ) return null;
+        }
+      }
+    }
+    return new Point(x,y);
+  }
+
+  /*マス用のパラメータをJPanel用の座標パラメータに変換する*/
+  public static int changeMasuPoint(int v){
+    if(v>6 || v<1) return 0;
+    return 400/6 * v;
   }
 
 
