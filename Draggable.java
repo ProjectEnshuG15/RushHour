@@ -11,12 +11,14 @@ class  Draggable extends JLabel {
     private Point point = null;
     private Point imageSize = null;
     private Point goalPoint = null;
+    private GameView gameView = null;
 
-    Draggable(ImageIcon icon,int muki,int size,int x,int y) {
+    Draggable(GameView g,ImageIcon icon,int muki,int size,int x,int y) {
         super(icon);
-        int sizeX=0,sizeY=0;
+        this.gameView = g;
         this.direction = muki;
 
+        int sizeX=0,sizeY=0;
         if(muki==0){
           sizeX = 1;
           sizeY = size;
@@ -27,32 +29,54 @@ class  Draggable extends JLabel {
 
         imageSize = new Point(sizeX,sizeY);
         setMasuLocation(x,y);
-        Image new_img = icon.getImage().getScaledInstance(changeMasuPoint(imageSize.x),changeMasuPoint(imageSize.y),Image.SCALE_DEFAULT);
+
+        int changeX = GameModel.changeMasuPoint(x);
+        int changeY = GameModel.changeMasuPoint(y);
+        int changeSizeX = GameModel.changeMasuPoint(imageSize.x);
+        int changeSizeY = GameModel.changeMasuPoint(imageSize.y);
+
+        Image new_img = icon.getImage().getScaledInstance(changeSizeX , changeSizeY , Image.SCALE_DEFAULT);
         super.setIcon(new ImageIcon(new_img,""));
-        super.setBounds(changeMasuPoint(x),changeMasuPoint(y),changeMasuPoint(imageSize.x),changeMasuPoint(imageSize.y));
-        point = new Point(changeMasuPoint(x),changeMasuPoint(y));
+        super.setBounds(changeX , changeY , changeSizeX , changeSizeY );
+        point = new Point(changeX , changeY);
     }
 
+    /*この駒が目的とする座標をセットする*/
     public void setGoalPoint(Point p){
       this.goalPoint = p;
     }
 
+    public Point getGoalPoint(){
+      return this.goalPoint;
+    }
+
+    /*この駒が方向パラメータを返す*/
     public int getDirection(){
       return this.direction;
     }
 
+    /*この駒のx,yの大きさをPointとして返す*/
     public Point getImageSize(){
       return this.imageSize;
     }
 
+    /*ラベルのインスタンスからViewのメソッドを実行する*/
+    public void moveObstacle(int x,int y){
+      gameView.moveObstacle(x,y,this);
+    }
+
+    /*ます単位での座標を引数として変換した上でこのラベルの座標を置き換える*/
     public void setMasuLocation(int x,int y){
-      if(changeMasuPoint(x)<0 || (changeMasuPoint(x)+changeMasuPoint(imageSize.x))>400 ||
-          changeMasuPoint(y)<0 || (changeMasuPoint(y)+changeMasuPoint(imageSize.y))>400 ) return;
-      masuPoint = new Point(x,y);
-      if(goalPoint!=null){
-        if( (masuPoint.x+this.getImageSize().x)==goalPoint.x && (masuPoint.y+this.getImageSize().y)==goalPoint.y) System.out.println("ゴールしました");
-      }
-      this.setLocation(new Point(changeMasuPoint(x),changeMasuPoint(y)));
+      int changeX = GameModel.changeMasuPoint(x);
+      int changeY = GameModel.changeMasuPoint(y);
+      int changeSizeX = GameModel.changeMasuPoint(imageSize.x);
+      int changeSizeY = GameModel.changeMasuPoint(imageSize.y);
+
+      //移動が増す範囲を超えるようであればreturnし、移動させない
+      //if(changeX<=0 || (changeX + changeSizeX)>400 || changeY<=0 || (changeY + changeSizeY)>400 ) return;
+      if(x<0 || (x+imageSize.x)>6 || y<0 || (x + imageSize.y)>6) return;
+      this.masuPoint = new Point(x,y);//ます座標の更新
+      this.setLocation(new Point(changeX,changeY));//駒の移動処理
     }
 
     /*このラベルの6*6におけるマスの現在の座標を返す*/
@@ -60,24 +84,16 @@ class  Draggable extends JLabel {
       return this.masuPoint;
     }
 
-    /*マス用のパラメータをJPanel用の座標パラメータに変換する*/
-    public int changeMasuPoint(int v){
-      if(v>6 || v<1) return 0;
-      return 400/6 * v;
-    }
-
 }
 
 class MyMouseListener extends MouseAdapter {
     private int dx, dy;
-    private ArrayList<Draggable> allPiece = null;
     Draggable label;
     boolean moveFlag = true;
 
-    MyMouseListener(Draggable lab,ArrayList<Draggable> a) {
+    MyMouseListener(Draggable lab) {
         super();
         label = lab;
-        this.allPiece = a;
     }
 
     public void mouseDragged(MouseEvent e) {
@@ -87,26 +103,8 @@ class MyMouseListener extends MouseAdapter {
         // マウスの座標からラベルの左上の座標を取得する
         int x = e.getXOnScreen() - dx;
         int y = e.getYOnScreen() - dy;
-        Point p = label.getMasuLocation();
 
-        /*ラベルの向きを元に移動座標の変換を行う*/
-        if(label.getDirection() == 1){
-          if(x-label.getX()>0){
-            p = new Point(p.x+1,p.y);
-          }else{
-            p = new Point(p.x-1,p.y);
-          }
-        }else{
-          if(y-label.getY()>0){
-            p = new Point(p.x,p.y+1);
-          }else{
-            p = new Point(p.x,p.y-1);
-          }
-        }
-        p = this.pillUpPiece(label,p.x,p.y);
-        if (p==null) return;
-        label.setMasuLocation(p.x,p.y);
-
+        label.moveObstacle(x,y);//駒を移動させる
     }
 
     public void mousePressed(MouseEvent e) {
@@ -114,25 +112,6 @@ class MyMouseListener extends MouseAdapter {
         dx = e.getXOnScreen() - label.getX();
         dy = e.getYOnScreen() - label.getY();
     }
-
-
-    /* 重複判定のためのメソッド */
-    public Point pillUpPiece(Draggable my,int x,int y){
-      for(Draggable d:allPiece){
-        Point p = d.getMasuLocation();
-        if(my!=d){
-          if(y>=p.y && (p.y+d.getImageSize().y)>y){
-            if( (x+my.getImageSize().x)>p.x && (x+my.getImageSize().x)<=(p.x+d.getImageSize().x) ) return null;
-            else if(x>=p.x && x<(p.x+d.getImageSize().x) ) return null;
-          }else if(x>=p.x && (p.x+d.getImageSize().x)>x){
-            if( (y+my.getImageSize().y)>p.y && (y+my.getImageSize().y)<=(p.y+d.getImageSize().y) ) return null;
-            else if(y>=p.y && y<(p.y+d.getImageSize().y) ) return null;
-          }
-        }
-      }
-      return new Point(x,y);
-    }
-
 
     public void mouseReleased(MouseEvent e){
       moveFlag = true;

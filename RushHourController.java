@@ -11,9 +11,9 @@ class RushHourController{
     private TitleView titleView = null;
     private TitleModel titleModel = null;
     private InputNameView inputNameView = null;
-    private GameView gameView = null; 
+    private GameView gameView = null;
     private GameModel gameModel = null;
-    
+
     public RushHourController(RushHourFrame rushflame){
         this.titleModel = new TitleModel();
         this.titleView = new TitleView(rushflame, titleModel, this);
@@ -41,7 +41,7 @@ class RushHourController{
     }
 
     public void moveRankingView() {
-        
+
     }
 
     public void moveStageSelect(String username) {
@@ -65,7 +65,7 @@ class RushHourController{
     }
 
     public void moveTitleView() {
-
+      titleView.paint();
     }
 
     public void resumeGame() {
@@ -76,8 +76,12 @@ class RushHourController{
 
     }
 
-    public void movePiece() {
-
+    public void movePiece(int x,int y,Draggable lab,ArrayList<Draggable> allPiece) {
+      Point p = this.gameModel.movePiece(x,y,lab,allPiece);
+      if (p==null) return;//返り値がnullであれば既に駒が存在しているためvoidリターン
+      lab.setMasuLocation(p.x,p.y);//移動可能であればラベルの座標を変更する
+      if( gameModel.checkGoalZone(lab) )//移動した場所がゴールかどうか確認する
+        this.moveTitleView();
     }
 
     public void partPiece() {

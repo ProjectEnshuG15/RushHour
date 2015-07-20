@@ -31,32 +31,35 @@ class GameView extends View implements ActionListener{
   private Point menuPoint = null;
 
     public GameView(RushHourFrame f,GameModel m, RushHourController c){
-    this.rushframe = f;
-    this.model = m;
-    this.controller = c;
-    ArrayList<String[]> list = m.getStageInformation();
-    this.goalPoint = new Point( Integer.parseInt(list.get(1)[0]),Integer.parseInt(list.get(1)[1]) );//ゴールの座標の設定
-    //this.playerLabel = new Draggable(model.getPlayerImage(),0,3,4-1,1-1);
-    /*駒のラベル用インスタンスを生成しArrayListに格納する*/
-    for(int i=2;i<list.size();i++){
-      this.labelPiece.add(new Draggable(model.getPlayerImage(),
-                                      Integer.parseInt(list.get(i)[0]),
-                                      Integer.parseInt(list.get(i)[1]),
-                                      Integer.parseInt(list.get(i)[2])-1,
-                                      Integer.parseInt(list.get(i)[3])-1
-                                      )
-                        );
-    }
-    this.labelPiece.get(0).setGoalPoint(goalPoint);//対象の駒のみゴールの座標を設定する
-    this.name = "サンプル";
+      this.rushframe = f;
+      this.model = m;
+      this.controller = c;
+      ArrayList<String[]> list = m.getStageInformation();
+      this.goalPoint = new Point( Integer.parseInt(list.get(1)[0]),Integer.parseInt(list.get(1)[1]) );//ゴールの座標の設定
+      //this.playerLabel = new Draggable(model.getPlayerImage(),0,3,4-1,1-1);
+      /*駒のラベル用インスタンスを生成しArrayListに格納する*/
+      for(int i=2;i<list.size();i++){
+        this.labelPiece.add(new Draggable(this,model.getPlayerImage(),
+                                        Integer.parseInt(list.get(i)[0]),
+                                        Integer.parseInt(list.get(i)[1]),
+                                        Integer.parseInt(list.get(i)[2])-1,
+                                        Integer.parseInt(list.get(i)[3])-1
+                                        )
+                          );
+      }
+      this.labelPiece.get(0).setGoalPoint(goalPoint);//対象の駒のみゴールの座標を設定する
+      this.name = "サンプル";
   }
 
   public void soudChage(){
 
   }
 
-  public void moveObstacle(){
-
+  /**
+    全てのラベルをもつlabelPieceを引数に加えコントローラのmovePieceを実行する
+  */
+  public void moveObstacle(int x,int y,Draggable lab){
+    controller.movePiece(x,y,lab,labelPiece);
   }
 
   public void clickUndo(){
@@ -69,7 +72,7 @@ class GameView extends View implements ActionListener{
 
   @Override
   public void paint(){
-      System.out.println("DEBUG:gameView paint");      
+    System.out.println("DEBUG:gameView paint");
     JPanel p = new JPanel();
     p.setLayout(null);
     /*ボタンの設定*/
@@ -96,7 +99,7 @@ class GameView extends View implements ActionListener{
     stage.setBounds(50,150,400,400);
     //JugePiece jugePieceInstance = new JugePiece(labelPiece);
     for(Draggable d:labelPiece){
-        MyMouseListener listener = new MyMouseListener(d,labelPiece);
+        MyMouseListener listener = new MyMouseListener(d);
         d.addMouseListener(listener);
         d.addMouseMotionListener(listener);
         stage.add(d);
