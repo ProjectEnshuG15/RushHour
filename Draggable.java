@@ -73,7 +73,6 @@ class  Draggable extends JLabel {
       int changeSizeY = GameModel.changeMasuPoint(imageSize.y);
 
       //移動が増す範囲を超えるようであればreturnし、移動させない
-      //if(changeX<=0 || (changeX + changeSizeX)>400 || changeY<=0 || (changeY + changeSizeY)>400 ) return;
       if(x<0 || (x+imageSize.x)>6 || y<0 || (x + imageSize.y)>6) return;
       this.masuPoint = new Point(x,y);//ます座標の更新
       this.setLocation(new Point(changeX,changeY));//駒の移動処理
