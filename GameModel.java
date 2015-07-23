@@ -15,6 +15,7 @@ class GameModel{
   /*新規のフィールド*/
   private ImageIcon playerImage = null;
   private ArrayList<ImageIcon> cpuImage = new ArrayList();
+  private ArrayList<ArrayList<Point>> pointPiece = new ArrayList<ArrayList<Point>>();
 
   public GameModel(){
 
@@ -59,12 +60,22 @@ class GameModel{
       return this.stageInformation;
   }
 
-  public void getScene(){
-
+  /*１手前の場面情報を取得するメソッド*/
+  public ArrayList<Point> getScene(){
+    try{
+      ArrayList<Point> scene = pointPiece.get(pointPiece.size()-1);
+      pointPiece.remove(pointPiece.size()-1);
+      return scene;
+    }catch(java.lang.ArrayIndexOutOfBoundsException e){
+      return null;
+    }
   }
 
-  public void setScene(){
-
+  /*場面情報を新たに追加するメソッド*/
+  public void setScene(ArrayList<Draggable> allPiece){
+    ArrayList<Point> scene = new ArrayList<Point>();
+    for(Draggable d:allPiece) scene.add(d.getMasuLocation());
+    pointPiece.add(scene);
   }
 
   /*新規のメソッド*/
