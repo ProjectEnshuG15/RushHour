@@ -16,7 +16,7 @@ class GameView extends View implements ActionListener{
   private GameModel model = null;
   private ArrayList<Draggable> labelPiece = new ArrayList<Draggable>();
   private Point goalPoint = null;
-    private RushHourController controller = null;
+  private RushHourController controller = null;
 
   /* 旧フィールド */
   private int heightMasuNum = 50;
@@ -62,8 +62,9 @@ class GameView extends View implements ActionListener{
     controller.movePiece(x,y,lab,labelPiece);
   }
 
+  /*Undo処理を実行する*/
   public void clickUndo(){
-
+    controller.doUndoEvent(labelPiece);
   }
 
   public void clickMenuButton(){
