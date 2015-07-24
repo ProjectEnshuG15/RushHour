@@ -1,12 +1,12 @@
 import javax.swing.ImageIcon;
 
-class MenuModle {
+class MenuModel {
     private ImageIcon titleRogoImage     = null;
     private ImageIcon retaireButtonImage = null;
     private ImageIcon selectButtonImage  = null;
     private ImageIcon resumeButtonImage  = null;
 
-    public MenuModle() {
+    public MenuModel() {
         this.titleRogoImage     = new ImageIcon("./logo/menu.png");
         this.retaireButtonImage = new ImageIcon("./logo/titleButton.png");        
         this.selectButtonImage  = new ImageIcon("./logo/stageselectButton.png");        

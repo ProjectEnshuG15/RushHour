@@ -13,6 +13,8 @@ class RushHourController{
     private InputNameView inputNameView = null;
     private GameView gameView = null;
     private GameModel gameModel = null;
+    private MenuView menuView = null;
+    private MenuModel menuModel = null;
 
     public RushHourController(RushHourFrame rushflame){
         this.titleModel = new TitleModel();
@@ -20,7 +22,9 @@ class RushHourController{
         this.inputNameView = new InputNameView();
         this.gameModel = new GameModel();
         this.gameView = new GameView(rushflame, gameModel, this);
-
+        this.menuModel = new MenuModel();
+        this.menuView = new MenuView(rushflame, menuModel, this);
+        
         this.run();
         if(debug == 0) {
             //new TitleView(rushflame,new TitleModel()).paint();
@@ -53,7 +57,7 @@ class RushHourController{
     }
 
     public void moveGameView() {
-
+        gameView.paint();
     }
 
     public void speakerOnOff() {
@@ -61,7 +65,7 @@ class RushHourController{
     }
 
     public void moveMenuView() {
-
+        menuView.paint();
     }
 
     public void moveTitleView() {
