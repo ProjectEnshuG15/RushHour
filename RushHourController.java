@@ -5,7 +5,6 @@ import java.awt.event.*;
 import javax.swing.*;
 
 class RushHourController{
-    private int debug = 0; // 0:run 1:debag
 
     /*新フィールド*/
     private TitleView titleView = null;
@@ -26,13 +25,7 @@ class RushHourController{
         this.menuView = new MenuView(rushflame, menuModel, this);
         
         this.run();
-        if(debug == 0) {
-            //new TitleView(rushflame,new TitleModel()).paint();
-            titleView.paint();
-        } else {
-            //gameView.paint();
-        }
-
+        titleView.paint();
     }
 
     private void run(){
@@ -40,8 +33,7 @@ class RushHourController{
     }
 
     public void moveInputNameView() {
-        // viewを更新する
-        gameView.paint();
+
     }
 
     public void moveRankingView() {

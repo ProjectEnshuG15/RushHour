@@ -30,7 +30,7 @@ class TitleView extends View implements ActionListener{
 
     public void start() {
         rushframe.getContentPane().removeAll();
-        controller.moveInputNameView();
+        controller.moveGameView();
     }
 
     public void ranking() {
