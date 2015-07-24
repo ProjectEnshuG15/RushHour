@@ -1,9 +1,11 @@
 import javax.swing.ImageIcon;
 import java.io.FileReader;
+import java.io.File;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.awt.Point;
+import javax.sound.sampled.*;
 
 class GameModel{
 
@@ -16,6 +18,8 @@ class GameModel{
   private ImageIcon playerImage = null;
   private ArrayList<ImageIcon> cpuImage = new ArrayList();
   private ArrayList<ArrayList<Point>> pointPiece = new ArrayList<ArrayList<Point>>();
+  private DataLine.Info di = null;
+  private AudioInputStream sound = null;
 
   public GameModel(){
 
@@ -40,7 +44,8 @@ class GameModel{
           }
         }catch (IOException ex) {
             ex.printStackTrace();
-        }
+      }
+
   }
 
 
@@ -145,5 +150,17 @@ class GameModel{
     return 400/6 * v;
   }
 
+  public void startSE(){
+    try{
+      AudioInputStream sound=AudioSystem.getAudioInputStream(getClass().getResource("./sozai/sampleSE.wav") );
+      DataLine.Info di=new DataLine.Info(Clip.class,sound.getFormat());
+      Clip clip = (Clip)AudioSystem.getLine(di);
+      clip.open(sound);
+      clip.start();
+      
+    }catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 
 }
