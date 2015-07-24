@@ -81,8 +81,10 @@ class RushHourController{
       if (p==null) return;//返り値がnullであれば既に駒が存在しているためvoidリターン
       gameModel.setScene(allPiece);//移動するため最後の場面情報を記録する
       lab.setMasuLocation(p.x,p.y);//移動可能であればラベルの座標を変更する
-      if( gameModel.checkGoalZone(lab) )//移動した場所がゴールかどうか確認する
-        this.moveTitleView();
+      if( gameModel.checkGoalZone(lab) ) {//移動した場所がゴールかどうか確認する
+          gameView.clear();
+          this.moveTitleView();
+      }
     }
 
     public void partPiece() {

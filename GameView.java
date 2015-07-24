@@ -156,6 +156,10 @@ class GameView extends View implements ActionListener{
 
     }
   }
+
+    public void clear() {
+        this.rushframe.getContentPane().removeAll();
+    }
 }
 
 /**
