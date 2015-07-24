@@ -9,7 +9,6 @@ class RushHourController{
     /*新フィールド*/
     private TitleView titleView = null;
     private TitleModel titleModel = null;
-    private InputNameView inputNameView = null;
     private GameView gameView = null;
     private GameModel gameModel = null;
     private MenuView menuView = null;
@@ -18,7 +17,6 @@ class RushHourController{
     public RushHourController(RushHourFrame rushflame){
         this.titleModel = new TitleModel();
         this.titleView = new TitleView(rushflame, titleModel, this);
-        this.inputNameView = new InputNameView();
         this.gameModel = new GameModel();
         this.gameView = new GameView(rushflame, gameModel, this);
         this.menuModel = new MenuModel();
